@@ -1,4 +1,9 @@
+mod context;
+mod models;
 mod schema;
+//mod mongodb;
+
+//use crate::mongodb::mongodb;
 
 use async_graphql::http::GraphiQLSource;
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse, GraphQLSubscription};
@@ -24,8 +29,7 @@ async fn graphiql() -> impl IntoResponse {
     )
 }
 
-#[tokio::main]
-async fn main() {
+async fn schema_main() {
     let schema = build_schema();
 
     let app = Router::new()
@@ -40,3 +44,25 @@ async fn main() {
         .await
         .unwrap();
 }
+
+#[tokio::main]
+async fn main() {
+    //mongodb().await;
+    schema_main().await;
+}
+
+//-> Result<(), Box<dyn Error>>  {
+/*
+
+    let collection: mongodb::Collection<ToDo> = client.database("rust").collection("todos");
+    let coll = client.database("rust").collection::<ToDo>("in_stock");
+
+    for i in 0..5 {
+    let coll_ref = coll.clone();
+
+    // Spawn several tasks that operate on the same collection concurrently.
+    todo::spawn(async move {
+        // Perform operations with `coll_ref` that work with directly our model.
+        coll_ref.insert_one(ToDo { id: i, descrition: "", completed: false, }, None).await?;
+    });
+*/
